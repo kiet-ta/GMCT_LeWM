@@ -1,0 +1,76 @@
+[gd_scene load_steps=7 format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stone"]
+albedo_color = Color(0.54, 0.52, 0.48, 1)
+roughness = 0.86
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lotus_stone"]
+albedo_color = Color(0.66, 0.64, 0.58, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gold"]
+albedo_color = Color(0.62, 0.44, 0.17, 1)
+metallic = 0.25
+roughness = 0.72
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lacquer"]
+albedo_color = Color(0.24, 0.075, 0.035, 1)
+metallic = 0.0
+roughness = 0.78
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cap_lacquer"]
+albedo_color = Color(0.48, 0.055, 0.035, 1)
+metallic = 0.0
+roughness = 0.68
+
+[node name="RoyalColumn" type="CSGCombiner3D"]
+use_collision = true
+
+[node name="Pedestal" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+radius = 3.24
+height = 1.8
+sides = 64
+material = SubResource("StandardMaterial3D_stone")
+
+[node name="LotusPetalBase" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, 0)
+radius = 2.7
+height = 1.2
+sides = 64
+material = SubResource("StandardMaterial3D_lotus_stone")
+
+[node name="LotusNeck" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4, 0)
+radius = 1.98
+height = 0.8
+sides = 64
+material = SubResource("StandardMaterial3D_lotus_stone")
+
+[node name="BaseRing" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
+radius = 2.1
+height = 1.0
+sides = 64
+material = SubResource("StandardMaterial3D_cap_lacquer")
+
+[node name="Shaft" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 24.0, 0)
+radius = 1.5
+height = 40.0
+sides = 64
+material = SubResource("StandardMaterial3D_lacquer")
+
+[node name="CrownRing" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 44.5, 0)
+radius = 2.1
+height = 1.0
+sides = 64
+material = SubResource("StandardMaterial3D_cap_lacquer")
+
+[node name="CrownGiltLine" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 44.9, 0)
+radius = 2.22
+height = 0.3
+sides = 64
+material = SubResource("StandardMaterial3D_gold")

@@ -1,0 +1,5 @@
+{
+  "expression": "80 + 20 = ?",
+  "expected_answer": "100",
+  "slots": 3
+}

@@ -9,7 +9,7 @@ func _process(delta: float) -> void:
 	float_time += delta
 	# Floating animation
 	$MeshInstance3D.position.y = 0.4 + sin(float_time * 2.0) * 0.1
-	
+
 	if target_player:
 		# Follow player smoothly
 		var target_pos = target_player.global_position + Vector3(1.5, 1.5, -1.5)
@@ -20,17 +20,22 @@ func update_feedback(state: String) -> void:
 	var message = ""
 	match state:
 		"not_enough_info":
-			message = "Hmm, I need more numbers!"
+			message = "Tráng sĩ còn thiếu vài chữ số. Hãy đặt đủ khối số vào ô đáp án."
 		"likely_correct_path":
-			message = "Looking good!"
+			message = "Đường tính đã thuận. Tráng sĩ cứ theo phép ấy mà tiến."
 		"wrong_direction":
-			message = "Oops, try again!"
+			message = "Phép này chưa hợp. Tráng sĩ thử xét lại hàng chục, hàng đơn vị."
 		"near_correct":
-			message = "So close!"
+			message = "Gần đúng rồi. Chỉ còn một chữ số chưa thuận."
 		"correct":
-			message = "You did it!"
+			message = "Khéo lắm, tráng sĩ! Cổng câu đố đã mở đường."
 		_:
-			message = "Let's solve!"
-			
+			message = "Hãy cùng ta giải câu đố để chứng minh lòng trung thực của chàng."
+
 	speech_bubble.text = message
 	EventLogger.log_event("buddy_speech", {"state": state, "message": message})
+
+	# Update the bottom dialogue UI in SettingsUI
+	var ui = get_tree().current_scene.get_node_or_null("SettingsUI")
+	if ui and ui.has_method("show_dialogue"):
+		ui.show_dialogue(message)

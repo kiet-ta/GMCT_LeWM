@@ -2,7 +2,11 @@ extends Node
 
 @export var puzzle_gate: Node3D
 @export var ai_buddy: Node3D
-@export var puzzle_data_path: String = "res://data/puzzle_1.json"
+@export var puzzle_paths: Array[String] = ["res://data/puzzle_1.json", "res://data/puzzle_2.json"]
+
+var current_puzzle_index: int = 0
+var trust_points: int = 0
+var max_trust: int = 100
 
 var expected_answer: String = ""
 var current_input: Array = []
@@ -29,11 +33,15 @@ func _scatter_blocks() -> void:
 		blocks_container.add_child(block)
 
 func _load_puzzle() -> void:
-	if not FileAccess.file_exists(puzzle_data_path):
-		print("Puzzle file not found: ", puzzle_data_path)
+	if current_puzzle_index >= puzzle_paths.size():
 		return
 		
-	var file = FileAccess.open(puzzle_data_path, FileAccess.READ)
+	var path = puzzle_paths[current_puzzle_index]
+	if not FileAccess.file_exists(path):
+		print("Puzzle file not found: ", path)
+		return
+		
+	var file = FileAccess.open(path, FileAccess.READ)
 	var content = file.get_as_text()
 	var data = JSON.parse_string(content)
 	
@@ -48,8 +56,6 @@ func _load_puzzle() -> void:
 		
 		if puzzle_gate:
 			puzzle_gate.update_display(expression)
-			# We'll assume the AnswerSlots are children of puzzle_gate/SlotsContainer
-			# and we'll instantiate them here.
 			_spawn_slots()
 
 func _spawn_slots() -> void:
@@ -86,15 +92,12 @@ func _evaluate_state() -> void:
 			input_str += str(val)
 	
 	var state = "not_enough_info"
-	
 	var is_full = not "_" in input_str
 	
 	if is_full:
 		if input_str == expected_answer:
 			state = "correct"
 		else:
-			# It's full but wrong.
-			# Check how many digits match
 			var match_count = 0
 			for i in range(min(input_str.length(), expected_answer.length())):
 				if input_str[i] == expected_answer[i]:
@@ -104,7 +107,6 @@ func _evaluate_state() -> void:
 			else:
 				state = "wrong_direction"
 	else:
-		# Partial input
 		var matching_so_far = true
 		var has_input = false
 		for i in range(input_str.length()):
@@ -121,9 +123,44 @@ func _evaluate_state() -> void:
 		else:
 			state = "wrong_direction"
 
-	# Send state to Buddy
 	if ai_buddy and ai_buddy.has_method("update_feedback"):
 		ai_buddy.update_feedback(state)
 		
-	if state == "correct" and puzzle_gate and puzzle_gate.has_method("open_gate"):
-		puzzle_gate.open_gate()
+	if state == "correct":
+		trust_points += 50
+		var ui = get_tree().current_scene.get_node_or_null("SettingsUI")
+		if ui and ui.has_method("update_trust"):
+			ui.update_trust(trust_points)
+			
+		if trust_points >= max_trust:
+			if ui and ui.has_method("trigger_victory"):
+				ui.trigger_victory()
+			if puzzle_gate and puzzle_gate.has_method("open_gate"):
+				puzzle_gate.open_gate()
+		else:
+			_transition_to_next_puzzle()
+
+func _transition_to_next_puzzle() -> void:
+	# Let player drop any grabbed block
+	var player = get_node_or_null("../Player")
+	if player and player.has_method("drop_block"):
+		player.drop_block()
+		
+	# Sink the gate
+	if puzzle_gate and puzzle_gate.has_method("sink_gate"):
+		await puzzle_gate.sink_gate(2.0)
+		
+	# Increment index and check
+	current_puzzle_index += 1
+	if current_puzzle_index < puzzle_paths.size():
+		_load_puzzle()
+		_scatter_blocks()
+		
+		# Show transition dialogue via Buddy
+		if ai_buddy and ai_buddy.has_method("update_feedback"):
+			ai_buddy.update_feedback("not_enough_info") # reset buddy message
+			
+		# Rise the gate with the new puzzle
+		if puzzle_gate and puzzle_gate.has_method("rise_gate"):
+			await puzzle_gate.rise_gate(2.0)
+

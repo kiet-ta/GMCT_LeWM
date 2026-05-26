@@ -1,26 +1,212 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/SettingsUI.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://data/fairy_non_la.jpg" id="2_avatar"]
+[ext_resource type="Texture2D" path="res://data/blank_scroll.jpg" id="3_scroll_bg"]
+[ext_resource type="Texture2D" path="res://data/blank_panel.jpg" id="5_panel_bg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_transparent"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avatar_border"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.54, 0.18, 0.065, 0.85)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [node name="SettingsUI" type="CanvasLayer"]
 script = ExtResource("1_script")
+
+[node name="TopHUD" type="TextureRect" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -330.0
+offset_right = 330.0
+offset_bottom = 78.0
+grow_horizontal = 2
+texture = ExtResource("3_scroll_bg")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="TopHUD"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -22.0
+offset_right = 200.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.2, 0.065, 0.025, 1)
+theme_override_colors/font_outline_color = Color(0.95, 0.82, 0.52, 0.75)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 18
+text = "ĐỘ TIN CẬY CỦA NHÀ VUA: 0/100"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -200.0
-offset_bottom = 100.0
+offset_left = -240.0
+offset_top = 95.0
+offset_right = -20.0
+offset_bottom = 238.0
 grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_transparent")
+
+[node name="Background" type="TextureRect" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_panel_bg")
+expand_mode = 1
 
 [node name="Label" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 190.0
-offset_bottom = 33.0
-text = "Input Mode:"
-[node name="Crosshair" type="ColorRect" parent="."]
+offset_left = 20.0
+offset_top = 18.0
+offset_right = 210.0
+theme_override_colors/font_color = Color(0.95, 0.9, 0.8, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 13
+text = "Chế độ tương tác:"
+
+[node name="OptionButton" type="OptionButton" parent="Panel"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 45.0
+offset_right = 210.0
+offset_bottom = 78.0
+theme_override_font_sizes/font_size = 12
+selected = 0
+item_count = 2
+popup/item_0/text = "Click để nhặt"
+popup/item_0/id = 0
+popup/item_1/text = "Giữ để kéo"
+popup/item_1/id = 1
+
+[node name="LabelHelp" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 85.0
+offset_right = 210.0
+offset_bottom = 132.0
+theme_override_colors/font_color = Color(0.8, 0.75, 0.7, 1)
+theme_override_font_sizes/font_size = 9
+text = "Chuột Phải + Kéo: Xoay Camera
+Chuột Trái: Tương tác với Khối Số"
+autowrap_mode = 2
+
+[node name="DialoguePanel" type="Panel" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -460.0
+offset_top = -186.0
+offset_right = 460.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_transparent")
+
+[node name="Background" type="TextureRect" parent="DialoguePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_scroll_bg")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="AvatarFrame" type="Panel" parent="DialoguePanel"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 112.0
+offset_top = 34.0
+offset_right = 194.0
+offset_bottom = -34.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_avatar_border")
+
+[node name="Avatar" type="TextureRect" parent="DialoguePanel/AvatarFrame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2
+offset_top = 2
+offset_right = -2
+offset_bottom = -2
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_avatar")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SpeakerLabel" type="Label" parent="DialoguePanel"]
+layout_mode = 0
+offset_left = 214.0
+offset_top = 30.0
+offset_right = 500.0
+offset_bottom = 56.0
+theme_override_colors/font_color = Color(0.44, 0.095, 0.035, 1)
+theme_override_colors/font_outline_color = Color(0.95, 0.8, 0.48, 0.65)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 16
+text = "Nàng tiên nón lá"
+
+[node name="DialogueText" type="Label" parent="DialoguePanel"]
+layout_mode = 0
+offset_left = 214.0
+offset_top = 60.0
+offset_right = 805.0
+offset_bottom = 130.0
+theme_override_colors/font_color = Color(0.17, 0.055, 0.025, 1)
+theme_override_colors/font_outline_color = Color(0.96, 0.82, 0.54, 0.5)
+theme_override_constants/outline_size = 1
+theme_override_font_sizes/font_size = 14
+text = "Tráng sĩ Thạch Sanh, nhà vua đang thử trí và lòng trung thực của chàng. Hãy đặt đúng khối số vào cổng câu đố để tăng Độ tin cậy."
+autowrap_mode = 2
+
+[node name="Crosshair" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterDot" type="ColorRect" parent="Crosshair"]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -32,16 +218,153 @@ offset_right = 2.0
 offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(1, 1, 1, 0.5)
+color = Color(0.86, 0.62, 0.24, 0.8)
 
-[node name="OptionButton" type="OptionButton" parent="Panel"]
-layout_mode = 0
-offset_left = 10.0
-offset_top = 40.0
-offset_right = 190.0
-offset_bottom = 71.0
-item_count = 2
-popup/item_0/text = "Click to Pick Up"
-popup/item_0/id = 0
-popup/item_1/text = "Hold to Grab"
-popup/item_1/id = 1
+[node name="LineLeft" type="ColorRect" parent="Crosshair"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -1.0
+offset_right = -5.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.86, 0.62, 0.24, 0.6)
+
+[node name="LineRight" type="ColorRect" parent="Crosshair"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 5.0
+offset_top = -1.0
+offset_right = 10.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.86, 0.62, 0.24, 0.6)
+
+[node name="LineTop" type="ColorRect" parent="Crosshair"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1.0
+offset_top = -10.0
+offset_right = 1.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.86, 0.62, 0.24, 0.6)
+
+[node name="LineBottom" type="ColorRect" parent="Crosshair"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1.0
+offset_top = 5.0
+offset_right = 1.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.86, 0.62, 0.24, 0.6)
+
+[node name="VictoryOverlay" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BgFade" type="ColorRect" parent="VictoryOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.01, 0.01, 0.65)
+
+[node name="Banner" type="Panel" parent="VictoryOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -90.0
+offset_right = 300.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_transparent")
+
+[node name="Background" type="TextureRect" parent="VictoryOverlay/Banner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_scroll_bg")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Title" type="Label" parent="VictoryOverlay/Banner"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_top = 25.0
+offset_right = 250.0
+offset_bottom = 85.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.95, 0.72, 0.1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 32
+text = "THỬ THÁCH HOÀN THÀNH!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SubTitle" type="Label" parent="VictoryOverlay/Banner"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -80.0
+offset_right = 250.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.95, 0.9, 0.8, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 15
+text = "Nhà Vua đã hoàn toàn tin tưởng Thạch Sanh và quyết định gả Công chúa!"
+horizontal_alignment = 1
+vertical_alignment = 1
