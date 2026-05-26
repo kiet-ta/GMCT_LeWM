@@ -2,7 +2,12 @@
 .godot/
 /android/
 
-# Local editor settings
+# Godot editor logs (machine-specific)
+editor_launch.txt
+editor_log.txt
+log.txt
+
+# Local editor/IDE settings
 .vscode/
 .idea/
 
@@ -14,3 +19,17 @@ build/
 logs/
 cache/
 *.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# PyTorch trained model weights (generated artifacts)
+*.pth
+
+# OS junk
+Thumbs.db
+.DS_Store
