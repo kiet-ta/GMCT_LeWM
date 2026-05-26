@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/NumberBlock.gd" id="1_script"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nb1"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_nb2"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nb3"]
+albedo_color = Color(0.2, 0.6, 1, 1)
+
+[node name="NumberBlock" type="RigidBody3D" groups=["interactable", "number_block"]]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_nb1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_nb2")
+surface_material_override/0 = SubResource("StandardMaterial3D_nb3")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.51)
+text = "0"
+font_size = 128
+outline_size = 16

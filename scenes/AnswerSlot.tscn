@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/AnswerSlot.gd" id="1_script"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_slot"]
+size = Vector3(1.2, 1.2, 1.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_slot"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.2)
+
+[node name="AnswerSlot" type="Area3D" groups=["answer_slot"]]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_slot")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+size = Vector3(1, 1, 1)
+material = SubResource("StandardMaterial3D_slot")

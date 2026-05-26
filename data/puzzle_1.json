@@ -1,0 +1,5 @@
+{
+  "expression": "2 x 50 = ?",
+  "expected_answer": "100",
+  "slots": 3
+}

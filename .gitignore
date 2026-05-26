@@ -1,0 +1,16 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Local editor settings
+.vscode/
+.idea/
+
+# Build/export outputs
+export/
+build/
+
+# Logs and caches
+logs/
+cache/
+*.log

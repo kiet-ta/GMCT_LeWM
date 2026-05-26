@@ -1,0 +1,158 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://scenes/AIBuddy.tscn" id="2_buddy"]
+[ext_resource type="PackedScene" path="res://scenes/PuzzleGate.tscn" id="3_gate"]
+[ext_resource type="Script" path="res://scripts/PuzzleManager.gd" id="5_manager"]
+[ext_resource type="PackedScene" path="res://scenes/SettingsUI.tscn" id="6_settings"]
+[ext_resource type="AudioStream" path="res://data/bgm.mp3" id="7_audio"]
+
+[sub_resource type="Environment" id="Environment_palace"]
+background_mode = 1
+background_color = Color(0.1, 0.05, 0.0, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.3, 0.2, 0.1, 1)
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 1.5
+glow_bloom = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
+albedo_color = Color(0.9, 0.9, 0.85, 1)
+roughness = 0.2
+metallic = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_carpet"]
+albedo_color = Color(0.6, 0.05, 0.05, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gold"]
+albedo_color = Color(1, 0.8, 0, 1)
+metallic = 1.0
+roughness = 0.3
+
+[node name="MainWorld" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_palace")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 0, 10, 0)
+light_color = Color(1, 0.9, 0.7, 1)
+light_energy = 0.5
+shadow_enabled = true
+
+[node name="Floor" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(50, 1, 50)
+material = SubResource("StandardMaterial3D_floor")
+
+[node name="Carpet" type="CSGBox3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51, 0)
+size = Vector3(4, 0.05, 30)
+material = SubResource("StandardMaterial3D_carpet")
+
+[node name="Pillars" type="Node3D" parent="."]
+
+[node name="Pillar1" type="CSGCylinder3D" parent="Pillars"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 4, 5)
+use_collision = true
+radius = 0.8
+height = 8.0
+material = SubResource("StandardMaterial3D_floor")
+
+[node name="Pillar2" type="CSGCylinder3D" parent="Pillars"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4, 5)
+use_collision = true
+radius = 0.8
+height = 8.0
+material = SubResource("StandardMaterial3D_floor")
+
+[node name="Pillar3" type="CSGCylinder3D" parent="Pillars"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 4, 0)
+use_collision = true
+radius = 0.8
+height = 8.0
+material = SubResource("StandardMaterial3D_floor")
+
+[node name="Pillar4" type="CSGCylinder3D" parent="Pillars"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4, 0)
+use_collision = true
+radius = 0.8
+height = 8.0
+material = SubResource("StandardMaterial3D_floor")
+
+[node name="Pillar5" type="CSGCylinder3D" parent="Pillars"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 4, -5)
+use_collision = true
+radius = 0.8
+height = 8.0
+material = SubResource("StandardMaterial3D_floor")
+
+[node name="Pillar6" type="CSGCylinder3D" parent="Pillars"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4, -5)
+use_collision = true
+radius = 0.8
+height = 8.0
+material = SubResource("StandardMaterial3D_floor")
+
+[node name="Throne" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+
+[node name="Base" type="CSGBox3D" parent="Throne"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+use_collision = true
+size = Vector3(3, 1, 2)
+material = SubResource("StandardMaterial3D_gold")
+
+[node name="Back" type="CSGBox3D" parent="Throne"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -0.8)
+use_collision = true
+size = Vector3(3, 4, 0.4)
+material = SubResource("StandardMaterial3D_gold")
+
+[node name="Seat" type="CSGBox3D" parent="Throne"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+use_collision = true
+size = Vector3(2.6, 0.4, 1.2)
+material = SubResource("StandardMaterial3D_carpet")
+
+[node name="Lights" type="Node3D" parent="."]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 5)
+light_color = Color(1, 0.9, 0.5, 1)
+light_energy = 3.0
+shadow_enabled = true
+omni_range = 15.0
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -5)
+light_color = Color(1, 0.9, 0.5, 1)
+light_energy = 3.0
+shadow_enabled = true
+omni_range = 15.0
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 12)
+
+[node name="AIBuddy" parent="." node_paths=PackedStringArray("target_player") instance=ExtResource("2_buddy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 12)
+target_player = NodePath("../Player")
+
+[node name="PuzzleGate" parent="." instance=ExtResource("3_gate")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
+
+[node name="PuzzleManager" type="Node" parent="." node_paths=PackedStringArray("puzzle_gate", "ai_buddy")]
+script = ExtResource("5_manager")
+puzzle_gate = NodePath("../PuzzleGate")
+ai_buddy = NodePath("../AIBuddy")
+
+[node name="Blocks" type="Node3D" parent="."]
+
+[node name="SettingsUI" parent="." instance=ExtResource("6_settings")]
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_audio")
+autoplay = true
